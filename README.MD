@@ -2,7 +2,7 @@
 <p>Modelo de clusterização sobre uma base de e-commerce.</p>
 
 <h2>Introduction</h2>
-<p>Esse trabalho diz respeito ao trabalho de conclusão do curso MBA em Data Science and Analytics, da faculdade <a href = 'https://mbauspesalq.com/'>FIA ( Universidade de São Paulo )</a>.</p>
+<p>Esse trabalho diz respeito ao trabalho de conclusão do curso MBA em Data Science and Analytics, da faculdade <a href = 'https://mbauspesalq.com/'>USP ( Universidade de São Paulo )</a>.</p>
 
 <h2> Authors</h2>
 <p><b>Name:</b> João Paulo Ribeiro dos Santos</p>
