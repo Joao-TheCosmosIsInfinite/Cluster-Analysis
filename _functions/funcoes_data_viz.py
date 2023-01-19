@@ -53,7 +53,7 @@ def boxplot(df_dataframe, ax, column, palette='viridis', title='', title_size=14
     ## Exibir figura
     plt.show()
     
-def bar_count_plot(df, ax, x=None, y=None, hue=None, palette='husl', 
+def bar_count_plot(df, ax, x=None, y=None, hue=None, order=None, palette='husl', 
                    title='', title_size=14, title_color='dimgrey'):
     """
     Função que gera um gráfico em barras a partir da volumetria de uma unica variável categórica
@@ -73,8 +73,15 @@ def bar_count_plot(df, ax, x=None, y=None, hue=None, palette='husl',
     ncount = len(df)
     
     ## Validando demais argumentos e plotando gráfico
-    sns.countplot(x=x, y=y, data=df, palette=palette, ax=ax, hue=hue)
+    if order is None:
+        sns.countplot(x=x, y=y, data=df, palette=palette, ax=ax, hue=hue)
+    else:
+        if x:
+            sns.countplot(x=x, y=y, data=df, palette=palette, ax=ax, hue=hue, order = df[x].value_counts().index)  
+        else:
+            sns.countplot(x=x, y=y, data=df, palette=palette, ax=ax, hue=hue, order = df[y].value_counts().index)
     
+     
     ## Formatando eixos, removendo borda e afins
     ax.spines['bottom'].set_color('#CCCCCC')
     ax.spines['left'].set_color('#CCCCCC')
