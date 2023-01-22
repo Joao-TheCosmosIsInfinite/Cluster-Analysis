@@ -166,3 +166,67 @@ def pie_plot(df, col, ax, label_names=None, text='',colors=['#ff9999','#66b3ff']
     ax.axis('equal')  
     plt.tight_layout()
     
+def bar_plot(df, ax, x=None, y=None, hue=None, palette='husl',
+             orient_horizontal=True, title='', title_size=14, 
+             title_color='dimgrey'):
+    """
+    Função que gera um gráfico em barras a partir dos dados passados
+    
+    :param df: Pandas dataframe
+    :param ax: Matplotlib axes
+    :param x: Coluna do dataframe no eixo x
+    :param y: Coluna do dataframe no eixo y
+    :param hue: Variavel opcional para incluir no plot
+    :param pallete: Paleta de cores
+    :param title: Titulo do gráfico
+    :param title_size: Tamanho do título
+    :param title_color: Cor do titulo
+    
+    :return: None
+    """
+
+    ## Verificando plotagem por quebra de alguma variável categórica
+    if pd.api.types.is_string_dtype(df[y].dtype):
+        ncount = df[y].count()
+    else:
+        ncount = df[y].sum()
+    
+    ## Validando demais argumentos e plotando gráfico
+    plot = sns.barplot(x=x, y=y, data=df, palette=palette, ax=ax)
+    
+     
+    ## Formatando eixos, removendo borda e afins
+    ax.spines['bottom'].set_color('#CCCCCC')
+    ax.spines['left'].set_color('#CCCCCC')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_color('#FFFFFF')
+    ax.patch.set_facecolor('#FFFFFF')
+    
+    ## Titulo do grafico
+    ax.set_title(title+'\n', size=title_size, color=title_color, loc='center')
+    
+    ## Rotacionando o eixo x
+    ax.set_xticklabels(ax.get_xticklabels(), 
+                   ha = 'right',
+                   rotation = 35,
+                   fontsize = 10)
+                   
+    ## Inserindo os rotulos referentes aos números
+    if orient_horizontal:
+        for p in plot.patches:        
+            x = p.get_bbox().get_points()[:, 0]
+            y = p.get_bbox().get_points()[1, 1]
+            ax.annotate('{:.2f}\n{:.2f}%'.format(int(y), 100. * y / ncount), 
+                        (x.mean(), y), 
+                        ha='center', 
+                        va='bottom', 
+                        color='black')
+    else:
+        ncount=df[x].sum()
+        for p in plot.patches:        
+                x = p.get_bbox().get_points()[1, 0]
+                y = p.get_bbox().get_points()[:, 1]
+                ax.annotate('{:.2f} - {:.2f}%'.format(int(x), 100. * x / ncount), 
+                            (x, y.mean()),   
+                            va='center', 
+                            color='black')   
