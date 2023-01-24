@@ -31,3 +31,33 @@ def data_bin_cut(df, col, bins_number, color_bar="lightgreen"):
     
     ## Criando um objeto styled e retornando
     return df_aux.style.hide_index().bar(subset=["percent(%)"], color='lightgreen')
+    
+def frequency_distribution(p_df_dataframe, p_column) -> pd.DataFrame():
+    """
+    Função que computa o as distribuições de frequencia absoluta e relativa de um dado dataframe e coluna
+
+    Keyword arguments:
+    :param p_df_dataframe: O pandas dataframe
+    :param p_column: Coluna do dataframe
+
+    :return: Um pandas dataframe com os dados das frequencias
+    
+    """
+    ## Dataframe com os dados agrupados
+    df_freq_dist = pd.DataFrame(p_df_dataframe \
+                                   .groupby(p_column)[p_column] \
+                                   .agg('count'))
+    ## Renomeando a coluna para corresponder a frequencia absoluta
+    df_freq_dist = df_freq_dist \
+                        .rename(columns = {p_column : 'Frequencia Absoluta'}) \
+                        .sort_values(by = 'Frequencia Absoluta', ascending = False)
+    
+    ## Somatorio das frequencias absolutas
+    sum_columns = df_freq_dist['Frequencia Absoluta'].sum()
+    
+    ## Criação da frequencia relativa
+    df_freq_dist['Frequencia Relativa'] = df_freq_dist \
+                                                .groupby(level = 0) \
+                                                .apply(lambda x : 100 * x/ sum_columns)
+    
+    return df_freq_dist

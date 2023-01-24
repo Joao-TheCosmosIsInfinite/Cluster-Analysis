@@ -20,6 +20,10 @@ def boxplot(df_dataframe, ax, column, palette='viridis', title='', title_size=14
     ## Dataframe com as estatisticas descritivas
     df_summary = pd.DataFrame(df_dataframe[column].describe())
     
+    ## Setando variáveis
+    df_summary.loc["skewness"] = df_dataframe[column].skew()    
+    df_summary.loc["kurtosis"] = df_dataframe[column].kurt()
+    
     ## Objeto referente ao boxplot
     sns.boxplot(data=df_dataframe[column].values,
                 palette=palette,
@@ -229,4 +233,34 @@ def bar_plot(df, ax, x=None, y=None, hue=None, palette='husl',
                 ax.annotate('{:.2f} - {:.2f}%'.format(int(x), 100. * x / ncount), 
                             (x, y.mean()),   
                             va='center', 
-                            color='black')   
+                            color='black')
+
+def heatmap_plot(df_corr, ax, palette='coolwarm', title='', title_size=14, title_color='dimgrey'):
+    mask = np.triu(np.ones_like(df_corr, dtype=np.bool))
+    ## Ajustando mascara
+    mask = mask[1:, :-1]
+    corr = df_corr.iloc[1:,:-1].copy()
+    ## Paleta de Cor
+    cmap = palette
+    ## Mapa de Calos
+    sns.heatmap(corr, 
+                mask=mask, 
+                annot=True, 
+                fmt=".2f", 
+                linewidths=5, 
+                cmap=cmap, 
+                vmin=-1, 
+                vmax=1, 
+                cbar_kws={"shrink": .8}, 
+                square=True)
+    ## Objetos do gráfico
+    yticks = [i.upper() for i in corr.index]
+    xticks = [i.upper() for i in corr.columns]
+    plt.yticks(plt.yticks()[0], labels=yticks, rotation=0)
+    plt.xticks(plt.xticks()[0], labels=xticks)
+    ax.set_xticklabels(ax.get_xticklabels(), 
+                       ha = 'right',
+                       rotation = 35,
+                       fontsize = 11)
+    ## Titulo do grafico
+    ax.set_title(title+'\n', size=title_size, color=title_color, loc='center')
