@@ -120,7 +120,7 @@ def bar_count_plot(df, ax, x=None, y=None, hue=None, order=None, palette='husl',
                         color='black')
     
 def pie_plot(df, col, ax, label_names=None, text='',colors=['#ff9999','#66b3ff'], circle_radius=0.72, 
-               title='',title_size=14,title_color='dimgrey'):
+               title='',title_size=14,title_color='dimgrey', label_size=18):
     """
     Função que gera um gráfico de rosca de um variavel de um dado dataframe/ dataset
     :param df: Pandas dataframe
@@ -157,7 +157,8 @@ def pie_plot(df, col, ax, label_names=None, text='',colors=['#ff9999','#66b3ff']
            autopct=lambda pct: autopct_values_and_percents(pct),
            startangle=90,
            pctdistance=0.85,
-           explode=explode)    
+           explode=explode,
+           textprops={'fontsize': label_size})    
     ax.add_artist(center_circle)
     ## Titulo do grafico
     ax.set_title(title+'\n', size=title_size, color=title_color)
