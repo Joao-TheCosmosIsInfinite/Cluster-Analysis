@@ -21,8 +21,9 @@ def boxplot(df_dataframe, ax, column, palette='viridis', title='', title_size=14
     df_summary = pd.DataFrame(df_dataframe[column].describe())
     
     ## Setando variáveis
-    df_summary.loc["skewness"] = df_dataframe[column].skew()    
-    df_summary.loc["kurtosis"] = df_dataframe[column].kurt()
+    df_summary.loc["sum"] = df_dataframe[column].sum()
+    df_summary.loc["skewness"] = df_dataframe[column].skew()   
+    df_summary.loc["kurtosis"] = df_dataframe[column].kurt()    
     
     ## Objeto referente ao boxplot
     sns.boxplot(data=df_dataframe[column].values,
